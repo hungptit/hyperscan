@@ -731,7 +731,7 @@ int main(int argc, char **argv) {
             count++;
             cout << "." << std::flush;
             vector<unsigned> sv(s.begin(), s.end());
-            random_shuffle(sv.begin(), sv.end());
+            std::random_shuffle(sv.begin(), sv.end());
             unsigned groups = factor_max + 1;
             for (unsigned current_group = 0; current_group < groups;
                  current_group++) {
