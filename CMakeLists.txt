@@ -118,6 +118,9 @@ endif(DEBUG_OUTPUT)
 option(BUILD_SHARED_LIBS "Build shared libs instead of static" OFF)
 option(BUILD_STATIC_AND_SHARED "Build shared libs as well as static" OFF)
 
+# Turn AVX2 support by default
+option(HAVE_AVX2 "Build using AVX2 by default" ON)
+
 if (BUILD_STATIC_AND_SHARED OR BUILD_SHARED_LIBS)
         message(STATUS "Building shared libraries")
 else()
