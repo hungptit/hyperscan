@@ -120,6 +120,7 @@ option(BUILD_STATIC_AND_SHARED "Build shared libs as well as static" OFF)
 
 # Turn AVX2 support by default
 option(HAVE_AVX2 "Build using AVX2 by default" ON)
+option(FAT_RUNTIME "Disable fat runtime by default" OFF)
 
 if (BUILD_STATIC_AND_SHARED OR BUILD_SHARED_LIBS)
         message(STATUS "Building shared libraries")
