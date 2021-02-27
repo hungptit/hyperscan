@@ -801,10 +801,10 @@ void makeCheckLiteralInstruction(const rose_literal_id &lit,
         const auto *end_inst = program.end_instruction();
         unique_ptr<RoseInstruction> ri;
         if (lit.s.any_nocase()) {
-            ri = make_unique<RoseInstrCheckMedLitNocase>(lit.s.get_string(),
+            ri = std::make_unique<RoseInstrCheckMedLitNocase>(lit.s.get_string(),
                                                          end_inst);
         } else {
-            ri = make_unique<RoseInstrCheckMedLit>(lit.s.get_string(),
+            ri = std::make_unique<RoseInstrCheckMedLit>(lit.s.get_string(),
                                                    end_inst);
         }
         program.add_before_end(move(ri));
@@ -820,10 +820,10 @@ void makeCheckLiteralInstruction(const rose_literal_id &lit,
     const auto *end_inst = program.end_instruction();
     unique_ptr<RoseInstruction> ri;
     if (lit.s.any_nocase()) {
-        ri = make_unique<RoseInstrCheckLongLitNocase>(lit.s.get_string(),
+        ri = std::make_unique<RoseInstrCheckLongLitNocase>(lit.s.get_string(),
                                                       end_inst);
     } else {
-        ri = make_unique<RoseInstrCheckLongLit>(lit.s.get_string(), end_inst);
+        ri = std::make_unique<RoseInstrCheckLongLit>(lit.s.get_string(), end_inst);
     }
     program.add_before_end(move(ri));
 }
@@ -1055,7 +1055,7 @@ bool makeRoleMask32(const vector<LookEntry> &look,
     DEBUG_PRINTF("base_offset %d\n", base_offset);
 
     const auto *end_inst = program.end_instruction();
-    auto ri = make_unique<RoseInstrCheckMask32>(and_mask, cmp_mask, neg_mask,
+    auto ri = std::make_unique<RoseInstrCheckMask32>(and_mask, cmp_mask, neg_mask,
                                                 base_offset, end_inst);
     program.add_before_end(move(ri));
     return true;
@@ -1098,7 +1098,7 @@ bool makeRoleMask64(const vector<LookEntry> &look,
     DEBUG_PRINTF("base_offset %d\n", base_offset);
 
     const auto *end_inst = program.end_instruction();
-    auto ri = make_unique<RoseInstrCheckMask64>(and_mask, cmp_mask, neg_mask,
+    auto ri = std::make_unique<RoseInstrCheckMask64>(and_mask, cmp_mask, neg_mask,
                                                 base_offset, end_inst);
     program.add_before_end(move(ri));
     return true;
@@ -1235,7 +1235,7 @@ makeCheckShufti16x8(u32 offset_range, u8 bucket_idx,
     copy(hi_mask.begin(), hi_mask.begin() + 16, nib_mask.begin() + 16);
     copy(bucket_select_mask.begin(), bucket_select_mask.begin() + 16,
          bucket_select_mask_16.begin());
-    return make_unique<RoseInstrCheckShufti16x8>
+    return std::make_unique<RoseInstrCheckShufti16x8>
            (nib_mask, bucket_select_mask_16,
             neg_mask & 0xffff, base_offset, end_inst);
 }
@@ -1255,7 +1255,7 @@ makeCheckShufti32x8(u32 offset_range, u8 bucket_idx,
     array<u8, 16> lo_mask_16;
     copy(hi_mask.begin(), hi_mask.begin() + 16, hi_mask_16.begin());
     copy(lo_mask.begin(), lo_mask.begin() + 16, lo_mask_16.begin());
-    return make_unique<RoseInstrCheckShufti32x8>
+    return std::make_unique<RoseInstrCheckShufti32x8>
            (hi_mask_16, lo_mask_16, bucket_select_mask,
             neg_mask, base_offset, end_inst);
 }
@@ -1277,7 +1277,7 @@ makeCheckShufti16x16(u32 offset_range, u8 bucket_idx,
          bucket_select_mask_32.begin());
     copy(bucket_select_mask_hi.begin(), bucket_select_mask_hi.begin() + 16,
          bucket_select_mask_32.begin() + 16);
-    return make_unique<RoseInstrCheckShufti16x16>
+    return std::make_unique<RoseInstrCheckShufti16x16>
            (hi_mask, lo_mask, bucket_select_mask_32,
             neg_mask & 0xffff, base_offset, end_inst);
 }
@@ -1294,7 +1294,7 @@ makeCheckShufti32x16(u32 offset_range, u8 bucket_idx,
         return nullptr;
     }
 
-    return make_unique<RoseInstrCheckShufti32x16>
+    return std::make_unique<RoseInstrCheckShufti32x16>
            (hi_mask, lo_mask, bucket_select_mask_hi,
             bucket_select_mask_lo, neg_mask, base_offset, end_inst);
 }
@@ -1321,7 +1321,7 @@ makeCheckShufti64x8(u32 offset_range, u8 bucket_idx,
     copy(lo_mask.begin(), lo_mask.begin() + 16, lo_mask_64.begin() + 32);
     copy(lo_mask.begin(), lo_mask.begin() + 16, lo_mask_64.begin() + 48);
 
-    return make_unique<RoseInstrCheckShufti64x8>
+    return std::make_unique<RoseInstrCheckShufti64x8>
            (hi_mask_64, lo_mask_64, bucket_select_mask,
             neg_mask, base_offset, end_inst);
 }
@@ -1361,7 +1361,7 @@ makeCheckShufti64x16(u32 offset_range, u8 bucket_idx,
     copy(lo_mask.begin() + 16, lo_mask.begin() + 32, lo_mask_2.begin() + 32);
     copy(lo_mask.begin() + 16, lo_mask.begin() + 32, lo_mask_2.begin() + 48);
 
-    return make_unique<RoseInstrCheckShufti64x16>
+    return std::make_unique<RoseInstrCheckShufti64x16>
            (hi_mask_1, hi_mask_2, lo_mask_1, lo_mask_2, bucket_select_mask_hi,
             bucket_select_mask_lo, neg_mask, base_offset, end_inst);
 }
@@ -1508,7 +1508,7 @@ void makeLookaroundInstruction(const vector<LookEntry> &look,
         return;
     }
 
-    auto ri = make_unique<RoseInstrCheckLookaround>(look,
+    auto ri = std::make_unique<RoseInstrCheckLookaround>(look,
                                                     program.end_instruction());
     program.add_before_end(move(ri));
 }
@@ -1762,7 +1762,7 @@ bool makeRoleMultipathShufti(const vector<vector<LookEntry>> &multi_look,
         copy(begin(lo_mask), begin(lo_mask) + 16, nib_mask.begin());
         copy(begin(hi_mask), begin(hi_mask) + 16, nib_mask.begin() + 16);
 
-        auto ri = make_unique<RoseInstrCheckMultipathShufti16x8>
+        auto ri = std::make_unique<RoseInstrCheckMultipathShufti16x8>
                   (nib_mask, bucket_select_lo, data_select_mask, hi_bits_mask,
                    lo_bits_mask, neg_mask, base_offset, last_start, end_inst);
         program.add_before_end(move(ri));
@@ -1771,20 +1771,20 @@ bool makeRoleMultipathShufti(const vector<vector<LookEntry>> &multi_look,
         assert(!(hi_bits_mask & ~0xffffffffULL));
         assert(!(lo_bits_mask & ~0xffffffffULL));
         if (bit_index <= 8) {
-            auto ri = make_unique<RoseInstrCheckMultipathShufti32x8>
+            auto ri = std::make_unique<RoseInstrCheckMultipathShufti32x8>
                       (hi_mask, lo_mask, bucket_select_lo, data_select_mask,
                        hi_bits_mask, lo_bits_mask, neg_mask, base_offset,
                        last_start, end_inst);
             program.add_before_end(move(ri));
         } else {
-            auto ri = make_unique<RoseInstrCheckMultipathShufti32x16>
+            auto ri = std::make_unique<RoseInstrCheckMultipathShufti32x16>
                       (hi_mask, lo_mask, bucket_select_hi, bucket_select_lo,
                        data_select_mask, hi_bits_mask, lo_bits_mask, neg_mask,
                        base_offset, last_start, end_inst);
             program.add_before_end(move(ri));
         }
     } else {
-        auto ri = make_unique<RoseInstrCheckMultipathShufti64>
+        auto ri = std::make_unique<RoseInstrCheckMultipathShufti64>
                   (hi_mask, lo_mask, bucket_select_lo, data_select_mask,
                    hi_bits_mask, lo_bits_mask, neg_mask, base_offset,
                    last_start, end_inst);
@@ -1856,7 +1856,7 @@ void makeRoleMultipathLookaround(const vector<vector<LookEntry>> &multi_look,
         ordered_look.emplace_back(multi_entry);
     }
 
-    auto ri = make_unique<RoseInstrMultipathLookaround>(move(ordered_look),
+    auto ri = std::make_unique<RoseInstrMultipathLookaround>(move(ordered_look),
                                                         last_start, start_mask,
                                                     program.end_instruction());
     program.add_before_end(move(ri));
@@ -2428,7 +2428,7 @@ void addPredBlocksAny(map<u32, RoseProgram> &pred_blocks, u32 num_states,
     }
 
     const RoseInstruction *end_inst = sparse_program.end_instruction();
-    auto ri = make_unique<RoseInstrSparseIterAny>(num_states, keys, end_inst);
+    auto ri = std::make_unique<RoseInstrSparseIterAny>(num_states, keys, end_inst);
     sparse_program.add_before_end(move(ri));
 
     RoseProgram &block = pred_blocks.begin()->second;

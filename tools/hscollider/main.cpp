@@ -1606,7 +1606,7 @@ void generateTests(CorporaSource &corpora_src, const ExpressionMap &exprMap,
                                       max_generator_queue_len);
     vector<unique_ptr<CorpusGenThread>> generators;
     for (size_t i = 0; i < numGeneratorThreads; i++) {
-        auto c = make_unique<CorpusGenThread>(i, testq, corpq, corpora_src);
+        auto c = std::make_unique<CorpusGenThread>(i, testq, corpq, corpora_src);
         c->start();
         generators.push_back(move(c));
     }

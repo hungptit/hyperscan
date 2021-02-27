@@ -134,7 +134,7 @@ void CNGInfo::compile() {
             auto pl = ue2::make_unique<ParsedLogical>();
             pl->parseLogicalCombination(id, re.c_str(), ~0U, 0, ~0ULL);
             pl->logicalKeyRenumber();
-            cng = make_unique<CompiledNG>(move(pl));
+            cng = std::make_unique<CompiledNG>(move(pl));
             return;
         }
 
@@ -193,7 +193,7 @@ void CNGInfo::compile() {
             }
         }
 
-        cng = make_unique<CompiledNG>(move(g), move(rm));
+        cng = std::make_unique<CompiledNG>(move(g), move(rm));
     } catch (CompileError &e) {
         throw NGCompileFailure(e.reason);
     } catch (NGUnsupportedFailure &e) {
@@ -257,7 +257,7 @@ unique_ptr<CNGInfo> GraphTruth::preprocess(unsigned id,
         }
     }
 
-    auto cngi = make_unique<CNGInfo>(id, m_expr);
+    auto cngi = std::make_unique<CNGInfo>(id, m_expr);
     cngi->utf8 = hs_flags & HS_FLAG_UTF8;
     cngi->highlander = highlander;
     cngi->prefilter = prefilter;

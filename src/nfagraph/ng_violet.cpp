@@ -375,7 +375,7 @@ void getSimpleRoseLiterals(const NGHolder &g, bool seeking_anchored,
 
         DEBUG_PRINTF("candidate is a candidate\n");
         scores[v] = score;
-        lit_info[v] = make_unique<VertLitInfo>(v, s, anchored);
+        lit_info[v] = std::make_unique<VertLitInfo>(v, s, anchored);
     }
 
     /* try to filter out cases where appending some characters produces worse
@@ -531,7 +531,7 @@ void getRegionRoseLiterals(const NGHolder &g, bool seeking_anchored,
         }
 
         DEBUG_PRINTF("candidate is a candidate\n");
-        lits->push_back(make_unique<VertLitInfo>(vv, s, anchored));
+        lits->push_back(std::make_unique<VertLitInfo>(vv, s, anchored));
     }
 }
 
